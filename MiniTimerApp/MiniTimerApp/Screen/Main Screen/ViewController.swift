@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     // UI elements
@@ -31,7 +32,7 @@ class ViewController: UIViewController {
         
     let playPauseButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Play/Pause", for: .normal)
+        button.setTitle("Play", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .green
         button.layer.cornerRadius = 25
@@ -50,7 +51,14 @@ class ViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    // Timer properties
+        var timer: Timer?
+        var isTimerRunning = false
+        var remainingTimeInSeconds: TimeInterval = 0
 
+    var player: AVAudioPlayer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -84,12 +92,90 @@ class ViewController: UIViewController {
     }
     
     @objc func playPauseButtonTapped(){
-        
+        if isTimerRunning {
+            pauseTimer()
+        } else {
+            startTimer()
+        }
     }
     
     @objc func setResetButtonTapped(){
-        
+        resetTimer()
     }
+    
+    func startTimer() {
+        if !isTimerRunning {
+            if remainingTimeInSeconds == 0{
+                remainingTimeInSeconds = timePicker.countDownDuration
+            }
+            updateTimerLabel()
+            playPauseButton.setTitle("Pause", for: .normal)
+            isTimerRunning = true
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        }
+    }
+    
+    func pauseTimer() {
+        if isTimerRunning {
+            timer?.invalidate()
+            playPauseButton.setTitle("Play", for: .normal)
+            isTimerRunning = false
+        }
+    }
+        
+    @objc func updateTimer() {
+        if remainingTimeInSeconds > 0 {
+            remainingTimeInSeconds -= 1
+            updateTimerLabel()
+        } else {
+            pauseTimer()
+            showTimerElapsedAlert()
+            playSound()
+        }
+    }
+    
+    func resetTimer() {
+        timer?.invalidate()
+        isTimerRunning = false
+        remainingTimeInSeconds = 0
+        updateTimerLabel()
+        playPauseButton.setTitle("Play", for: .normal)
+    }
+    
+    func updateTimerLabel() {
+        let minutes = Int(remainingTimeInSeconds) / 60
+        let seconds = Int(remainingTimeInSeconds) % 60
+        timerLabel.text = String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    func showTimerElapsedAlert() {
+        let alert = UIAlertController(title: "Timer has elapsed!", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                self.stopAlarm()
+            }
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+        
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "wav") else {
+            return
+        }
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.prepareToPlay()
+            player?.play()
+        } catch {
+            print("Error playing sound: \(error.localizedDescription)")
+        }
+
+    }
+    
+    func stopAlarm() {
+        player?.stop()
+    }
+
 
 
 }

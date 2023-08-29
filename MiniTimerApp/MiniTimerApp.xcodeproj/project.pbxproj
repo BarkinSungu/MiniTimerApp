@@ -13,6 +13,7 @@
 		DA702BD42A9DEDE100CE04F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA702BD22A9DEDE100CE04F2 /* Main.storyboard */; };
 		DA702BD62A9DEDE200CE04F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA702BD52A9DEDE200CE04F2 /* Assets.xcassets */; };
 		DA702BD92A9DEDE200CE04F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA702BD72A9DEDE200CE04F2 /* LaunchScreen.storyboard */; };
+		DA702BEB2A9E0FC800CE04F2 /* alarm_sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = DA702BEA2A9E0FC800CE04F2 /* alarm_sound.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		DA702BD52A9DEDE200CE04F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA702BD82A9DEDE200CE04F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA702BDA2A9DEDE200CE04F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA702BEA2A9E0FC800CE04F2 /* alarm_sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_sound.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 		DA702BE12A9DEDFD00CE04F2 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				DA702BE92A9E0F9900CE04F2 /* Sounds */,
 				DA702BE62A9DEE4C00CE04F2 /* Plists */,
 				DA702BE52A9DEE4400CE04F2 /* Assets */,
 				DA702BE02A9DEDF000CE04F2 /* Delegates */,
@@ -121,6 +124,14 @@
 				DA702BDA2A9DEDE200CE04F2 /* Info.plist */,
 			);
 			path = Plists;
+			sourceTree = "<group>";
+		};
+		DA702BE92A9E0F9900CE04F2 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				DA702BEA2A9E0FC800CE04F2 /* alarm_sound.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +192,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA702BEB2A9E0FC800CE04F2 /* alarm_sound.wav in Resources */,
 				DA702BD92A9DEDE200CE04F2 /* LaunchScreen.storyboard in Resources */,
 				DA702BD62A9DEDE200CE04F2 /* Assets.xcassets in Resources */,
 				DA702BD42A9DEDE100CE04F2 /* Main.storyboard in Resources */,
