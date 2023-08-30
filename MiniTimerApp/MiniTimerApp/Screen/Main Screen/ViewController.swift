@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import UserNotifications
 
 class ViewController: UIViewController {
     // UI elements
@@ -63,6 +64,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         setUI()
+        getRequestAuthorization()
     }
     
     func setUI(){
@@ -105,6 +107,7 @@ class ViewController: UIViewController {
     
     @objc func setResetButtonTapped(){
         resetTimer()
+        cancelNotificaiton()
     }
     
     func startTimer() {
@@ -117,6 +120,7 @@ class ViewController: UIViewController {
             isTimerRunning = true
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         }
+        createNotification(timeInterval: remainingTimeInSeconds)
     }
     
     func pauseTimer() {
@@ -125,6 +129,7 @@ class ViewController: UIViewController {
             playPauseButton.setTitle("Play", for: .normal)
             isTimerRunning = false
         }
+        cancelNotificaiton()
     }
         
     @objc func updateTimer() {
@@ -177,5 +182,34 @@ class ViewController: UIViewController {
     func stopAlarm() {
         player?.stop()
     }
+    
+    func getRequestAuthorization(){
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+            if granted {
+                print("Notifications have been allowed.")
+            } else {
+                print("Notifications have not been allowed.")
+            }
+        }
+    }
+    
+    func createNotification(timeInterval: TimeInterval){
+        let content = UNMutableNotificationContent()
+        content.title = "Timer has elapsed!"
+        content.body = "Timer has elapsed!"
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarm_sound.wav"))
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+
+        let request = UNNotificationRequest(identifier: "notificationIdentifier", content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+
+    }
+    
+    func cancelNotificaiton(){
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["notificationIdentifier"])
+    }
+    
 }
 
