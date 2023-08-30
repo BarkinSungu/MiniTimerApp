@@ -61,6 +61,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setUI()
+    }
+    
+    func setUI(){
         view.backgroundColor = .white
         
         view.addSubview(timePicker)
@@ -88,7 +93,6 @@ class ViewController: UIViewController {
             setResetButton.widthAnchor.constraint(equalToConstant: 150),
             setResetButton.heightAnchor.constraint(equalToConstant: 50)
         ])
-
     }
     
     @objc func playPauseButtonTapped(){
@@ -161,7 +165,6 @@ class ViewController: UIViewController {
         guard let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "wav") else {
             return
         }
-        
         do {
             player = try AVAudioPlayer(contentsOf: url)
             player?.prepareToPlay()
@@ -169,14 +172,10 @@ class ViewController: UIViewController {
         } catch {
             print("Error playing sound: \(error.localizedDescription)")
         }
-
     }
     
     func stopAlarm() {
         player?.stop()
     }
-
-
-
 }
 
